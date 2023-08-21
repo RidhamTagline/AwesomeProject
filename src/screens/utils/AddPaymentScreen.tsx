@@ -1,4 +1,4 @@
-import { FlatList, Image, Keyboard, Platform, ScrollView, StyleSheet, Text, TouchableOpacity, View } from 'react-native'
+import { StyleSheet, Text, View } from 'react-native'
 import React, { useEffect, useState } from 'react'
 import { useGlobalStyles } from '../../hooks/useGlobalStyles';
 import CustomTextInput from '../../components/CustomTextInput';
@@ -7,8 +7,6 @@ import { Fonts } from '../../styles/Fonts';
 import { FontSizes } from '../../styles/FontSizes';
 import { heightPercentageToDP as hp, widthPercentageToDP as wp } from 'react-native-responsive-screen';
 import { Icons } from '../../utils/IconsPaths';
-import CustomDropdownFeild from '../../components/CustomDropdownFeild';
-import { DropDownListProps, paymentsType, panelsType, otherPaymentMethod } from '../../utils/Constats';
 import { AppStrings } from '../../utils/AppStrings';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 import CustomHeader from '../../components/CustomHeader';
@@ -17,35 +15,31 @@ import { useFormik } from 'formik';
 import CommonErrorText from '../../components/CommonErrorText';
 import useCustomNavigation from '../../hooks/useCustomNavigation';
 import CommonDropDownComponent from '../../components/CustomDropdownFeild';
-
 import CustomContainer from '../../components/CustomContainer';
 import CustomBottomBtn from '../../components/CustomBottomBtn';
 import { paymentDataProps, updatePaymentDetailsReducer } from '../../redux/slice/paymentSlice/PaymentSlice';
 import { RootStackParamList } from '../../types/RootStackType';
 import { RouteProp, useRoute } from '@react-navigation/native';
 
-
 const saleFieldSchema = yup.object().shape({
     panels: yup.string().trim(),
     method: yup.string().trim(),
     grwt: yup.string().trim(),
     tunch: yup.string().trim(),
-    fine: yup.string().trim(),
-    rate: yup.string().trim(),
     total: yup.string().trim(),
 });
-
 
 const AddPaymentScreen = () => {
 
     const Styles = useStyles();
     const GlobalStyles = useGlobalStyles();
-    const { colors } = useAppSelector(state => state.CommonSlice);
-    const { paymentListData } = useAppSelector(state => state.PaymentSlice)
     const navigation = useCustomNavigation('AddSaleItemScreen');
     const dispatch = useAppDispatch();
-    type NestedScreenRouteProp = RouteProp<RootStackParamList, 'AddPaymentScreen'>;
     const { params } = useRoute<NestedScreenRouteProp>();
+
+    const { paymentListData } = useAppSelector(state => state.PaymentSlice)
+    type NestedScreenRouteProp = RouteProp<RootStackParamList, 'AddPaymentScreen'>;
+
     const [currentData, setCurrentData] = useState<paymentDataProps>()
 
     useEffect(() => {
@@ -67,14 +61,12 @@ const AddPaymentScreen = () => {
             method: currentData?.method ?? '',
             grwt: currentData?.grwt ?? '',
             tunch: currentData?.tunch ?? '',
-            fine: currentData?.fine ?? '',
-            rate: currentData?.rate ?? '',
             total: currentData?.total ?? '',
         },
         enableReinitialize: true,
         validationSchema: saleFieldSchema,
         onSubmit: (values) => {
-            const { fine, grwt, method, panels, rate, total, tunch } = values;
+            const { grwt, method, panels, total, tunch } = values;
             const id = paymentListData?.length !== 0 ? paymentListData[paymentListData?.length - 1]?.id + 1 : 1
             const data = {
                 id: params?.itemId ?? id,
@@ -82,8 +74,6 @@ const AddPaymentScreen = () => {
                 method: method,
                 grwt: grwt,
                 tunch: tunch,
-                fine: fine,
-                rate: rate,
                 total: total,
             }
             dispatch(updatePaymentDetailsReducer(data))
@@ -162,30 +152,6 @@ const AddPaymentScreen = () => {
                                 keyboardType='number-pad'
                                 value={values.tunch}
                                 onChangeText={handleChange('tunch')}
-                            />
-                        </View>
-                    </View>
-
-
-                    <View style={Styles.textInputRowContainer}>
-                        <View>
-                            <Text style={[Styles.textInputLablePreFixTextStyle, Styles.textInputLabelText]}>{AppStrings.add_payment_model_placeholder.fine}</Text>
-                            <CustomTextInput
-                                style={Styles.textInputContainerStyle}
-                                placeholder={AppStrings.add_payment_model_placeholder.default_price}
-                                keyboardType='number-pad'
-                                value={values.fine}
-                                onChangeText={handleChange('fine')}
-                            />
-                        </View>
-                        <View>
-                            <Text style={[Styles.textInputLablePreFixTextStyle, Styles.textInputLabelText]}>{AppStrings.add_payment_model_placeholder.rate}</Text>
-                            <CustomTextInput
-                                style={Styles.textInputContainerStyle}
-                                placeholder={AppStrings.add_payment_model_placeholder.default_price}
-                                keyboardType='number-pad'
-                                value={values.rate}
-                                onChangeText={handleChange('rate')}
                             />
                         </View>
                     </View>

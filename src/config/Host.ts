@@ -1,1 +1,1 @@
-export const APP_URL = 'http://goldshoppers.teamopine.com';
+export const APP_URL = 'http://localhost:8080/';

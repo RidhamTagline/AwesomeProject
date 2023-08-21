@@ -1,11 +1,10 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import { DrawerStackParamList } from '../types/RootStackType';
 import { createDrawerNavigator } from '@react-navigation/drawer';
 import CustomDrawerItem, { DrawerItems } from '../components/CustomDrawerItem';
 import { useAppSelector } from '../redux/Store';
 import SaleScreen from '../screens/home/SaleScreen';
 import CustomerLedgerScreen from '../screens/utils/CustomerLedgerScreen';
-
 
 const Drawer = createDrawerNavigator<DrawerStackParamList>();
 
@@ -17,7 +16,6 @@ const DrawerStack = () => {
 
     return (
         <Drawer.Navigator
-            // initialRouteName=''
             screenListeners={{
                 focus: (preProps) => {
                     let scrName = preProps?.target?.split("-")[0]

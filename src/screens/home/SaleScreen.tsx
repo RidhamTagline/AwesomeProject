@@ -40,38 +40,32 @@ const SaleScreen = () => {
 
     const Styles = useStyles();
     const GlobalStyles = useGlobalStyles();
-    const { colors } = useAppSelector((state) => state.CommonSlice);
-    const { isLoading } = useAppSelector(state => state.AuthSlice)
     const dispatch = useAppDispatch();
     const navigation = useCustomNavigation('DrawerStack')
+    const focus = useIsFocused()
+    const openAccountDropdownRef = useRef<IDropdownRef | null | undefined>(null);
+
+    const { colors } = useAppSelector((state) => state.CommonSlice);
+    const { isLoading } = useAppSelector(state => state.AuthSlice)
     const { isLoading: loading, accountListData } = useAppSelector(state => state.AccountSlice);
     const { isLoading: itemLoading, itemListData } = useAppSelector(state => state.SaleSlice);
     const { ItemDetailsData, paymentListData } = useAppSelector(state => state.PaymentSlice)
-    const [saleItem, setSaleItem] = useState<DropDownListProps[]>();
+
     const [accountList, SetAccountList] = useState<DropDownListProps[]>();
-    // const [masterTableData, setMasterTableData] = useState();
-    const focus = useIsFocused()
     const [isVisibleQuickActionBtn, setIsVisibleQuickActionBtn] = useState<boolean>(false);
     const [openDatePicker, setOpenDatePicker] = useState<boolean>(false)
     const [date, setDate] = useState(new Date());
-    const openAccountDropdownRef = useRef<IDropdownRef | null | undefined>(null);
     const [masterTableData, setMasterTableData] = useState<string[][] | []>([]);
-
-    // const [panelsTableData, setPanelsTableData] = useState(panelesTableListData);
     const [panelsTableData, setPanelsTableData] = useState<string[][] | []>([]);
-
     const [paymentTable, setPaymentTable] = useState(paymentTableData)
+    const saleMasterTableHeader = ["Item name", "Action"];
+    const saleMasterTableWidth = [wp(30), wp(13)];
 
-    const saleMasterTableHeader = ["Item name", "Gr.Wt.", "Net Wt", "Fine", "Action"];
-    const saleMasterTableWidth = [wp(30), wp(17), wp(15), wp(15), wp(13)];
+    const panelsTableHeader = ["Panels", "Action"];
+    const panelsTableWidth = [wp(30), wp(13)];
 
-    const panelsTableHeader = ["Panels", "Method", "Gr.Wt.", "Rate", "Action"];
-    const panelsTableWidth = [wp(30), wp(17), wp(15), wp(15), wp(13)];
-
-    const totalSaleHeader = ["", "Pc", "Gr.Wt.", "Fine", "Lbr", "Total"]
-    const totalSaleWidth = [wp(30), wp(25), wp(20), wp(20), wp(20), wp(20)]
-
-
+    const totalSaleHeader = ["", "Pc", "Total"]
+    const totalSaleWidth = [wp(30), wp(25), wp(20)]
 
     useEffect(() => {
         if (focus) {
@@ -101,33 +95,17 @@ const SaleScreen = () => {
             }
         });
         combinedData && setMasterTableData(combinedData);
-
     }, [itemListData]);
 
     useEffect(() => {
         const itemDetailData = paymentListData?.map(data1Item => [data1Item.panels, data1Item.method, data1Item.grwt, data1Item.rate, data1Item.id.toString()])
-
         setPanelsTableData(itemDetailData)
     }, [paymentListData]);
-
-    // const paymentMethod = ["PAYMENT", "", "", "", "", "", ""];
 
     useEffect(() => {
         const paymentMethod = paymentListData?.map(item => [item.panels, item.method, item.grwt, item.fine, item.rate, item.total, item.id.toString()])
         setPaymentTable([...paymentTableData, ...paymentMethod]);
     }, [panelsTableData]);
-
-
-    // useEffect(() => {
-    //     if (saleItemsData) {
-    //         const data = saleItemsData.map(item => ({
-    //             id: Math.floor(Math.random() * 10),
-    //             label: `${item.name}(${item.unit})`,
-    //             value: `${item.name}(${item.unit})`,
-    //         }));
-
-    //     }
-    // }, [saleItemsData]);
 
     useEffect(() => {
         if (accountListData) {
@@ -142,7 +120,6 @@ const SaleScreen = () => {
 
     const {
         handleChange,
-        handleSubmit,
         values,
         setFieldValue,
     } = useFormik({
@@ -227,7 +204,6 @@ const SaleScreen = () => {
                                                     style={{ paddingVertical: wp(3), paddingHorizontal: wp(5) }}
                                                     onPress={() => {
                                                         openAccountDropdownRef?.current?.close()
-                                                        navigation.navigate('AddAccountScreen')
                                                     }}
                                                 >
                                                     <Text style={Styles.textInputLabelText}>{AppStrings.add_account}</Text>

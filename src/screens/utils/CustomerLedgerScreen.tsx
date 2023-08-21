@@ -15,23 +15,16 @@ import DatePicker from 'react-native-date-picker';
 import moment from 'moment';
 import useCustomNavigation from '../../hooks/useCustomNavigation';
 import CustomPrimaryButton from '../../components/CustomPrimaryButton';
-import { Row, Table } from 'react-native-table-component';
-
 
 const CustomerLedgerScreen = () => {
 
     const Styles = useStyles();
     const GlobalStyles = useGlobalStyles();
     const navigation = useCustomNavigation('DrawerStack');
-    const { colors } = useAppSelector(state => state.CommonSlice)
     const [openStartDatePicker, setOpenStartDatePicker] = useState<boolean>(false)
     const [startDate, setStartDate] = useState(new Date());
     const [openEndDatePicker, setOpenEndDatePicker] = useState<boolean>(false)
     const [endDate, setEndDate] = useState(new Date());
-    const [customerLedgerTableData, setCustomerLedgerTableData] = useState(ledgerTableData);
-
-    const saleMasterTableHeader = ["Date", "Ref No", "Narration", "Tag no.", "Purity", "Gr.Wt", "Less", "Net.Wt", "Tunch", "Wstg", "Rate", "Lbr", "On", "Fine", "Amount"];
-    const saleMasterTableWidth = [wp(25), wp(45), wp(20), wp(20), wp(20), wp(20), wp(20), wp(20), wp(20), wp(20), wp(20), wp(20), wp(20), wp(20), wp(20)];
 
     return (
         <View style={GlobalStyles.container}>
@@ -127,48 +120,6 @@ const CustomerLedgerScreen = () => {
                             style={[Styles.rowButtonContainerStyles, Styles.resetButtonStyle]}
                             txtStyle={Styles.resetBtnTextStyles}
                         />
-                    </View>
-                    <Text style={Styles.summaryTextStyle}>{AppStrings.summary}</Text>
-                    <View style={[GlobalStyles.rowContainer, Styles.summyItemRowContainer]}>
-                        <Text style={Styles.summayItemText}>{AppStrings.opening_gold}</Text>
-                        <Text style={Styles.summayItemText}>{0}</Text>
-                    </View>
-                    <View style={Styles.itemSeperatorLine} />
-                    <View style={[GlobalStyles.rowContainer, Styles.summyItemRowContainer]}>
-                        <Text style={Styles.summayItemText}>{AppStrings.closing_gold}</Text>
-                        <Text style={Styles.summayItemText}>{0}</Text>
-                    </View>
-                    <View style={Styles.itemSeperatorLine} />
-                    <View style={[GlobalStyles.rowContainer, Styles.summyItemRowContainer]}>
-                        <Text style={Styles.summayItemText}>{AppStrings.opening_balance}</Text>
-                        <Text style={Styles.summayItemText}>{0}</Text>
-                    </View>
-                    <View style={Styles.itemSeperatorLine} />
-                    <View style={[GlobalStyles.rowContainer, Styles.summyItemRowContainer]}>
-                        <Text style={Styles.summayItemText}>{AppStrings.
-                            closing_balance}</Text>
-                        <Text style={Styles.summayItemText}>{0}</Text>
-                    </View>
-                    <ScrollView horizontal showsHorizontalScrollIndicator={false}>
-                        <View style={Styles.spacerContainer}>
-                            <Table borderStyle={Styles.tableStyle}>
-                                <Row data={saleMasterTableHeader} widthArr={saleMasterTableWidth} style={Styles.headerRow} textStyle={Styles.headerText} />
-                                {customerLedgerTableData.map((rowData, rowIndex) => (
-                                    <Row key={rowIndex} data={rowData.map((cellData, cellIndex) => {
-                                        return (
-                                            <Text>{cellData}</Text>
-                                        )
-                                    })}
-                                        widthArr={saleMasterTableWidth}
-                                        style={Styles.dataRow} textStyle={Styles.tableRowTextStyle} />
-                                ))}
-                            </Table>
-                        </View>
-                    </ScrollView>
-                    <View style={[GlobalStyles.rowContainer]}>
-                        <CustomPrimaryButton title={"Column Visibility"} onPress={() => { }} style={[Styles.rowButtonContainerStyles, Styles.bottomRowBtnContainerStyle]} txtStyle={{ fontSize: FontSizes.FONT_SIZE_11 }} />
-                        <CustomPrimaryButton title={"Export PDF"} onPress={() => { }} style={[Styles.rowButtonContainerStyles, Styles.bottomRowBtnContainerStyle]} txtStyle={{ fontSize: FontSizes.FONT_SIZE_11 }} />
-                        <CustomPrimaryButton title={"Export Exel"} onPress={() => { }} style={[Styles.rowButtonContainerStyles, Styles.bottomRowBtnContainerStyle]} txtStyle={{ fontSize: FontSizes.FONT_SIZE_11 }} />
                     </View>
                 </CustomContainer>
             </ScrollView>

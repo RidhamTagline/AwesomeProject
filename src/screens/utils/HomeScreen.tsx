@@ -2,9 +2,7 @@ import { StyleSheet, Text, TouchableOpacity, View, Image } from 'react-native'
 import React from 'react'
 import { useAppSelector } from '../../redux/Store'
 import { useGlobalStyles } from '../../hooks/useGlobalStyles';
-
 import { SafeAreaView } from 'react-native-safe-area-context';
-
 import useCustomNavigation from '../../hooks/useCustomNavigation';
 import CustomHeader from '../../components/CustomHeader';
 import { Icons } from '../../utils/IconsPaths';
@@ -18,6 +16,7 @@ const HomeScreen = () => {
     const GlobalStyles = useGlobalStyles();
     const { colors } = useAppSelector((state) => state.CommonSlice);
     const navigation = useCustomNavigation('DrawerStack')
+    
     return (
         <View style={GlobalStyles.container}>
             <CustomHeader

@@ -6,19 +6,6 @@ export interface ItemDetailsProps {
     id: number,
     itemName: string,
     type: string,
-    grwt: string,
-    netwt: string,
-    fine: string,
-    unit: string,
-    stamp: string,
-    less:string,
-    pc: string,
-    tunch: string,
-    wstg: string,
-    rate: string,
-    lbr: string,
-    on: string,
-    total: string
 }
 
 export interface paymentDataProps{
@@ -27,8 +14,6 @@ export interface paymentDataProps{
     method: string,
     grwt: string,
     tunch: string,
-    fine: string,
-    rate: string,
     total: string,
 }
 
